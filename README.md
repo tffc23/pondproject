@@ -14,22 +14,20 @@ A project where trainees can share personal projects and invite other trainees w
 -	Trainees can communicate or share contact details with one another
 -	A skill will have a title and a brief description
 -	Student can indicate which academy stream they belong to (Dev/TA/BABI…etc)
-•	A trainee may post a portfolio of projects they have worked on
-•	A portfolio may have skills associated with a project
-•	A project contains a role title and description
-•	Sales are able to post a client project
-•	Trainers or Trainees can post mock projects
-•	A Project has a title and description
-•	A Role has a title, description and the skills required
-•	A trainee’s skill may be categorized with certain skill levels (Basic, Advanced, Experienced)
-•	A trainer is able to reset their own password or other details
-•	The platform may have instant messaging capabilities
-•	A Project may be able to upload files and pictures
-•	A trainee can search for available Projects and filter via skills
-•	A trainee can receive a notification if a Project has been posted with their skills
-•	The project may include a time convertor
-•	The project may include a meeting scheduler
-•	The project may include a feed of notifications
-•	Notifications may be comprised of projects of interest, project invites, scheduling conflicts…etc
-
-
+-	A trainee may post a portfolio of projects they have worked on
+-	A portfolio may have skills associated with a project
+-	A project contains a role title and description
+-	Sales are able to post a client project
+-	Trainers or Trainees can post mock projects
+-	A Project has a title and description
+-	A Role has a title, description and the skills required
+-	A trainee’s skill may be categorized with certain skill levels (Basic, Advanced, Experienced)
+-	A trainer is able to reset their own password or other details
+-	The platform may have instant messaging capabilities
+-	A Project may be able to upload files and pictures
+-	A trainee can search for available Projects and filter via skills
+-	A trainee can receive a notification if a Project has been posted with their skills
+-	The project may include a time convertor
+-	The project may include a meeting scheduler
+-	The project may include a feed of notifications
+-	Notifications may be comprised of projects of interest, project invites, scheduling conflicts…etc
