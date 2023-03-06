@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>All Skills</title>
+
+    <div th:insert="util/cdnInjection :: head-css"></div>
+
+</head>
+
+<body>
+<!-- Sidenav -->
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main"
+     th:insert="util/cdnInjection :: navbarSideLoggedIn"></nav>
+<!-- Main content -->
+<div class="main-content" id="panel">
+    <!-- Topnav -->
+    <div th:insert="util/cdnInjection :: navbarTopLoggedIn"></div>
+    <!-- Header -->
+    <!-- Header -->
+    <div class="header bg-primary pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <h6 class="h2 text-white d-inline-block mb-0">Default</h6>
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href=""><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="">Dashboards</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">All Skills</li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                </div>
+                <!-- Card stats -->
+
+            </div>
+        </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <!-- Table -->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header">
+                        <h3 class="mb-0">Datatable</h3>
+                        <p class="text-sm mb-0">
+                            Current Projects in the database
+                        </p>
+                        <div class="col-12 text-right">
+                            <a href="/admin/createSkill" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip" data-original-title="Edit product">
+                                <span class="btn-inner--icon"><i class="fas fa-user-edit"></i></span>
+                                <span class="btn-inner--text">Create Skill</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive py-4">
+                        <table class="table table-flush" id="datatable-basic">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Id</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="s : ${listOfSkills}" th:object="${s}">
+                                <td th:text="*{id}"></td>
+                                <td th:text="*{title}"></td>
+                                <td th:text="*{description}"></td>
+                                <td>
+                                    <div th:if="${s.status} == true">
+                                        <span class="badge badge-success rounded-pill d-inline"
+                                              th:text="*{status}"></span>
+                                    </div>
+                                    <div th:if="${s.status} == false">
+                                        <span class="badge badge-danger rounded-pill d-inline"
+                                              th:text="*{status}"></span>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <a type="button" class="btn btn-outline-warning btn-sm btn-rounded"
+                                       th:href="@{'/updateAll/skill/' + *{id}}"> Edit</a>
+                                </td>
+                                <td>
+                                    <a type="button" class="btn btn-outline-danger btn-sm btn-rounded"
+                                       th:href="@{'/skill/' + *{id} + '/delete'}"> Delete</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="util/cdnInjection :: head-js"></div>
+
+</body>
+
+</html>

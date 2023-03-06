@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>User Profile</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="" th:object="${user}">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Edit Profile -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<!-- Breadcrumb -->
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/profile/} + ${session.user.id}"> <span class="d-inline-block me-2">
+											<i class="fa-solid fa-user"></i>
+									</span> <span class="text-secondary">Profile</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center" href="">
+										<span class="d-inline-block me-2"> <i
+											class="fa-solid fa-address-card"></i>
+									</span> <span class="text-secondary">Edit Profile</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+
+					<!-- Edit Profile -->
+					<div class="py-8">
+						<h3 class="h5 mb-2">Edit Profile</h3>
+						<form class="pt-5" th:action="@{/saveUpdateUser}" method="post">
+
+							<input th:field="*{id}" hidden /> 
+							<input th:field="*{password}" hidden />
+							<input th:field="*{role}" hidden />
+
+							<div class="mb-6">
+								<label class="form-label" for="">Username</label> <input
+									class="form-control" type="text" th:field="*{username}"
+									placeholder="Username" />
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label" for="">Email</label> <input
+									class="form-control" type="text" th:field="*{email}"
+									placeholder="Email" />
+							</div>
+
+							<div class="row">
+								<div class="col-12 col-lg-6">
+									<div class="mb-6">
+										<label class="form-label" for="">First Name</label> <input
+											class="form-control" type="text" th:field="*{firstName}"
+											placeholder="First Name" />
+									</div>
+								</div>
+								<div class="col-12 col-lg-6">
+									<div class="mb-6">
+										<label class="form-label" for="">Last Name</label> <input
+											class="form-control" type="text" th:field="*{lastName}"
+											placeholder="Last Name" />
+									</div>
+								</div>
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label">Stream</label> <select
+									class="form-select" th:field="*{stream}">
+									<option th:each="stream:${streams}" th:value="${stream}"
+										th:text="${stream}">DEV</option>
+								</select>
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label">Region</label> <select
+									class="form-select" th:field="*{region}">
+									<option th:each="region:${regions}" th:value="${region}"
+										th:text="${region}">AU</option>
+								</select>
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label" for="">Description</label>
+								<textarea class="form-control" name="field-name" rows="3" th:field="*{description}"
+									placeholder="Description"></textarea>
+							</div>
+
+							<button class="btn btn-primary" type="submit">Save</button>
+							<a class="btn btn-light"
+								th:href="@{'/profile/'+${user.id}}">Cancel</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</div>
+	<div th:insert="util/util:: js  " />
+</body>
+</html>

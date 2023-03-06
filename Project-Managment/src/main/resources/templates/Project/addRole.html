@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Add Role</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Form to add roles -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<!-- Breadcrumb -->
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/}"> <span class="d-inline-block me-2"> <i
+											class="fa-solid fa-house-chimney"></i>
+									</span> <span class="text-secondary">Home</span>
+								</a></li>
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{'/project/'+${project.projectId}}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-file-lines"></i>
+									</span> <span class="text-secondary">Project</span>
+								</a></li>
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:if="!${isEdit}"> <span class="d-inline-block me-2">
+											<i class="fa-solid fa-circle-plus"></i>
+									</span> <span class="text-secondary">Add Role</span>
+								</a> <a class="text-decoration-none d-flex align-items-center"
+									th:if="${isEdit}"> <span class="d-inline-block me-2">
+											<i class="fa-solid fa-pen-to-square"></i>
+									</span> <span class="text-secondary">Edit Role</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+
+					<!-- Form -->
+					<form class="py-5" th:object="${projectRole}"
+						th:action="@{/saveProjectRole}" method="post">
+
+						<!-- Heading -->
+						<h3 class="h5 mb-2" th:if="${isEdit}">Edit Project Role</h3>
+						<h3 class="h5 mb-2" th:if="!${isEdit}">Add role to project</h3>
+
+						<div class="pt-5 form-group">
+							<input th:field="*{id}" hidden /> <input
+								th:field="*{participant}" hidden /> <input th:name="projectId"
+								th:value=${project.projectId} hidden />
+
+							<div class="mb-6">
+								<label class="form-label" for="">Role Title</label> <input
+									class="form-control" type="text" name="field-name"
+									th:field="*{title}" placeholder="Role Title" id="" required>
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label" for="">Role Description</label>
+								<textarea class="form-control" name="field-name" rows="3"
+									th:field="*{description}" placeholder="Write something..." required></textarea>
+							</div>
+
+							<div class="mb-6">
+
+								<label class="form-label">Skills</label>
+								<select
+									class="form-select" th:field="*{skills}" multiple="multiple">
+									<option th:each="approvedSkill : ${approvedSkills}"
+										th:value="${{approvedSkill}}" th:text="${approvedSkill.title}">
+									</option>
+
+								</select>
+							</div>
+
+						</div>
+
+						<button class="btn btn-primary" type="submit" th:if="${isEdit}">Save</button>
+
+						<button class="btn btn-primary" type="submit" th:if="!${isEdit}">Add</button>
+
+						<a class="btn btn-light"
+							th:href="@{'/project/'+${project.projectId}}">Cancel</a>
+
+					</form>
+				</div>
+			</div>
+		</section>
+		<div th:insert="util/util:: js"/>
+	</div>
+</body>
+</html>

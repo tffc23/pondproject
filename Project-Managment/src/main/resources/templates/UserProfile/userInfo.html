@@ -1,0 +1,222 @@
+<div th:fragment="userInfo">
+	<section class="pt-8">
+		<div class="container" th:object="${user}">
+			<div class="p-6 bg-white rounded shadow">
+				<div class="d-flex mb-4 align-items-start justify-content-between">
+
+					<!-- User Information -->
+					<div class="d-flex align-items-center">
+
+						<!-- User Profile Image -->
+						<!-- Trainee  -->
+						<img class="me-4 img-fluid rounded-circle img-thumbnail"
+							th:if="*{role.name() == 'Trainee'}"
+							src="https://www.cnet.com/a/img/resize/61c44c6765cb6b8529df884935ad7aefc622aeec/hub/2021/11/03/3c2a7d79-770e-4cfa-9847-66b3901fb5d7/c09.jpg?auto=webp&fit=crop&height=675&width=1200"
+							alt="" style="width: 72px; height: 72px; object-fit: cover" />
+
+						<!-- Trainer  -->
+						<img class="me-4 img-fluid rounded-circle img-thumbnail"
+							th:if="*{role.name() == 'Trainer'}"
+							src="https://wallpapercave.com/dwp2x/m2WRYiF.jpg" alt=""
+							style="width: 72px; height: 72px; object-fit: cover" />
+
+						<!-- Sales  -->
+						<img class="me-4 img-fluid rounded-circle img-thumbnail"
+							th:if="*{role.name() == 'Sales'}"
+							src="https://c4.wallpaperflare.com/wallpaper/611/838/413/spiderman-hd-4k-superheroes-wallpaper-preview.jpg"
+							alt="" style="width: 72px; height: 72px; object-fit: cover" />
+
+						<div>
+							<!-- User Name -->
+							<div class="d-flex mb-2 align-items-center">
+								<h3 class="h6" th:text="*{firstName} + ' ' + *{lastName}">Thomas
+									Brown</h3>
+							</div>
+
+							<!-- User Role: trainee | trainer | sales -->
+							<p class="mb-0 small text-secondary" th:text="*{role}">Trainee</p>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- User headline/description-->
+				<p class="mb-8 small" th:text="*{description}">Description</p>
+
+				<!-- Stream -->
+				<div class="d-flex mb-4 align-items-center justify-content-between"
+					th:if="*{role.name() == 'Trainee'}">
+					<div class="d-flex align-items-center">
+						<span class="me-2 d-inline-block"> <i
+							class="fa-solid fa-building-columns"></i>
+						</span> <span class="small text-secondary">Stream</span>
+					</div>
+					<span class="small" th:text="*{stream}">Dev</span>
+				</div>
+
+				<!-- Region -->
+				<div class="d-flex mb-4 align-items-center justify-content-between">
+					<div class="d-flex align-items-center">
+						<span class="me-2 d-inline-block"> <i
+							class="fa-solid fa-map-pin"></i>
+						</span> <span class="small text-secondary">Region</span>
+					</div>
+					<span class="small" th:text="*{region}">Sydney, Australia</span>
+				</div>
+
+				<!-- Email -->
+				<div class="d-flex mb-4 align-items-center justify-content-between">
+					<div class="d-flex align-items-center">
+						<span class="me-2 d-inline-block"> <i
+							class="fa-regular fa-envelope"></i>
+						</span> <span class="small text-secondary">Email Address</span>
+					</div>
+					<span class="small" th:text="*{email}">thomasbrown@example.com</span>
+				</div>
+
+				<!-- BUTTONS -->
+				<div class="row">
+					<div class="col-12 col-sm-12 mb-2 mb-sm-0" th:if="!${isUser}">
+						<a
+							class="btn btn-sm btn-primary d-flex align-items-center justify-content-center"
+							th:href="@{'/notification/send/'+*{id}}"> <i
+							class="fa-solid fa-bell"></i><span class="ms-2">Message</span>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 mb-2 mb-sm-0" th:if="${isUser}">
+						<a
+							class="btn btn-sm btn-primary d-flex align-items-center justify-content-center"
+							th:href="@{/notification}"> <i class="fa-solid fa-bell"></i>
+							<span class="ms-2">Inbox</span>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6" th:if="${isUser}">
+						<a
+							class="btn btn-sm btn-info-light d-flex align-items-center justify-content-center"
+							th:href="@{/profile/} + ${session.user.id} + '/edit'"> <i
+							class="fa-regular fa-user"></i> <span class="ms-2">Edit
+								Details</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div th:fragment="skills">
+	<section class="pt-8">
+		<div class="container">
+			<div class="p-6 bg-white rounded shadow">
+				<!-- Heading -->
+				<div class="d-flex justify-content-between">
+					<div class="">
+						<div class="d-flex">
+							<div class="p-2">
+								<i class="fa-solid fa-screwdriver-wrench fa-xl mx-auto mb-6"></i>
+							</div>
+							<div class="p-2">
+								<h5 class="font-heading">Skills</h5>
+								<span class="d-block small text-secondary">The list of
+									skills you have!</span>
+							</div>
+						</div>
+					</div>
+					<div class="p-2">
+						<a class="btn btn-md btn-info-light" th:href="@{/traineeSkill}"
+							th:if="${isUser}">Edit</a>
+					</div>
+				</div>
+
+				<div class="row px-6 py-2">
+					<div class="col-4 d-flex p-1 align-items-center"
+						th:each="traineeSkill:${listOfTraineeSkills}"
+						th:object="${traineeSkill}">
+						<span class="me-1 d-inline-block"> <i
+							class="fa-solid fa-wrench fa-xs px-1"></i>
+						</span>
+						<!-- Skill Name -->
+						<span> <span class="h6" th:text="*{skill.title}">Python</span>
+							<!-- Skills Level --> <span
+							class="badge bg-success-light text-success rounded-pill"
+							th:if="*{skillLevel.name()=='Basic'}">Basic</span> <span
+							class="badge bg-warning-light text-warning rounded-pill"
+							th:if="*{skillLevel.name()=='Advanced'}">Advanced</span> <span
+							class="badge bg-danger-light text-danger rounded-pill"
+							th:if="*{skillLevel.name()=='Experienced'}">Experienced</span>
+
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div th:fragment="noSkills">
+	<section class="pt-8">
+		<div class="container">
+			<div class="p-6 bg-white rounded shadow">
+				<div class="d-flex mb-4 align-items-start justify-content-between">
+					<div class="col-12 col-lg-auto mb-12 mb-xl-0">
+						<h5 class="font-heading">Skills</h5>
+					</div>
+					<!-- BUTTON: ADD NEW SKILLS -->
+					<a
+						class="btn btn-sm btn-info-light d-flex align-items-center justify-content-center"
+						th:href="@{/skill}" th:if="${isUser}"> <span>View</span>
+					</a>
+				</div>
+				<div
+					class="p-4 mb-2 bg-light-light rounded d-flex align-items-center justify-content-between">
+					<div class="p-2">
+						<div class="d-flex align-items-center">
+							<div class="p-2">
+								<span
+									class="d-flex justify-content-center align-items-center rounded text-primary bg-primary-light"
+									style="width: 40px; height: 40px; object-fit: cover"> <i
+									class="fa-solid fa-wrench"></i>
+								</span>
+							</div>
+							<div class="p-2">
+								<h4 class="mb-0 small">You haven't added any skills.</h4>
+							</div>
+						</div>
+					</div>
+					<div class="p-2">
+						<a class="btn btn-sm btn-primary-light " th:href="@{addSkill}">Add
+							Skill</a>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+</div>
+
+<div th:fragment="approveSkill">
+	<!-- Create a new project -->
+	<section class="pt-8" th:if="${isUser}">
+		<div class="container">
+			<div class="p-6 pb-0 bg-white rounded shadow">
+				<div class="d-flex justify-content-between">
+					<div class="p-2">
+						<div class="d-flex">
+							<div class="p-2">
+								<i class="fa-solid fa-wrench"></i>
+							</div>
+							<div class="p-2">
+								<h5 class="font-heading">View Trainee Requests</h5>
+								<span class="d-block mb-6 small text-secondary">View skills suggested by trainees</span>
+							</div>
+						</div>
+					</div>
+					<div class="p-2">
+						<a class="btn btn-primary" th:href="@{/skillRequests}">View</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

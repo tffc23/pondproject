@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Add Role</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Form to add roles -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<!-- Breadcrumb -->
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/profile/} + ${session.user.id}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-house-chimney"></i>
+									</span> <span class="text-secondary">Home</span>
+								</a></li>
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{'/project/'+${project.projectId}}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-file-lines"></i>
+									</span> <span class="text-secondary">Project</span>
+								</a></li>
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-envelope-open-text"></i>
+									</span> <span class="text-secondary">Assign</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+
+					<!-- Form -->
+					<form class="py-5" th:object="${projectRole}" th:action="@{/assignRole}" method="post">
+
+						<!-- Heading -->
+						<h3 class="h5 mb-2">Assign</h3>
+
+						<div class="pt-5 form-group">
+
+							<input th:field="*{id}" hidden />
+							<input th:field=*{project} hidden>
+							
+							<input th:field="*{title}" hidden />
+							<input th:field="*{description}" hidden />
+							<input th:field="*{skills}" hidden />
+							
+							<div class="mb-6">
+								<label class="form-label" for=""><b>Role Title</b>: <span
+									th:text="*{title}"></span></label>
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label" for=""><b>Role Description</b>:
+									<span th:text="*{description}"></span></label>
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label" for=""><b>Skills</b>: <span
+									class="btn btn-outline-dark mx-2 btn-sm"
+									th:each="skill:*{skills}" th:text="${skill.title}"> </span></label>
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label" for=""><b>Assign applicants</b></label> 
+								<select
+									class="form-select" th:field="${projectRole.participant}">
+									
+									<!-- Null applicants -->
+									<option th:if="!${projectRole.applicants}" value="1">Current no applicants</option>
+									
+									<!-- 0 applicants -->
+									<div th:if="${projectRole.applicants}">
+										<option th:if="${projectRole.applicants.size == 0}" value="2">Current no applicants</option>
+									</div>
+									<option th:each="trainee: ${projectRole.applicants}"
+										th:object="${trainee}" th:value="${{trainee}}" th:text="*{firstName} + ' ' + *{lastName}"></option>
+								</select>
+							</div>
+
+						</div>
+						
+						<button class="btn btn-primary" type="submit" disabled th:if="${projectRole.applicants.size()==0}">Assign</button>
+
+						<button class="btn btn-primary" type="submit"  th:if="${projectRole.applicants.size()!=0}">Assign</button>
+
+						<a class="btn btn-light"
+							th:href="@{'/project/'+${project.projectId}}">Cancel</a>
+					</form>
+				</div>
+			</div>
+		</section>
+		<div th:insert="~{util/util:: js}" />
+	</div>
+</body>
+</html>

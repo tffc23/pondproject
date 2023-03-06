@@ -1,0 +1,127 @@
+<div th:fragment="createProject">
+	<!-- Create a new project -->
+	<section class="pt-8" th:if="${isUser}">
+		<div class="container">
+			<div class="p-6 pb-0 bg-white rounded shadow">
+				<div class="d-flex justify-content-between">
+					<div class="">
+						<div class="d-flex">
+							<div class="p-2">
+								<i class="fa-regular fa-lightbulb fa-xl mx-auto mb-6"></i>
+							</div>
+							<div class="p-2">
+								<h5 class="font-heading">Create a new Project</h5>
+								<span class="d-block mb-6 small text-secondary" >Currently no projects created</span>
+							</div>
+						</div>
+					</div>
+					<div class="p-2">
+						<a class="btn  btn-primary" th:href="@{/create/project}">Create</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div th:fragment="projectsCreated">
+	<!-- Projects Created -->
+	<section class="pt-8">
+		<div class="container">
+			<div class="p-6 bg-white rounded shadow">
+
+				<!-- Heading -->
+				<div class="d-flex justify-content-between">
+					<div class="p-2">
+						<div class="d-flex">
+							<div class="p-2">
+								<i class="fa-regular fa-lightbulb fa-xl mx-auto mb-6"></i>
+							</div>
+							<div class="p-2">
+								<h5 class="font-heading">Projects Created</h5>
+								<span class="d-block small text-secondary" 
+								th:text="${isUser ? 'You have' : user.firstName + ' has'}
+								+ ' created ' 
+								+ ${listOfProjects.size} + 
+								' project' + 
+								${listOfProjects.size > 1 ? 's.':'.'}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="p-2">
+						<a class="btn btn-md btn-primary" th:href="@{/create/project}"
+							th:if="${isUser}">Create</a>
+					</div>
+				</div>
+
+				<!-- Projects -->
+				<div class="table-responsive px-6">
+					<table class="table mb-0 small">
+						<!-- Table Head -->
+						<thead class="table-primary-light">
+							<tr>
+								<th class="py-4 px-6 text-secondary">Project</th>
+								<th class="py-4 px-6 text-secondary">Type</th>
+								<th class="py-4 px-6 text-secondary">Description</th>
+								<th class="py-4 px-6 text-secondary"></th>
+								<th class="py-4 px-6 text-secondary"></th>
+							</tr>
+						</thead>
+
+						<!-- Projects-->
+						<tbody>
+							<tr class="border-light" th:each="project:${listOfProjects}"
+								th:object="${project}">
+								<td class="py-4 pr-6">
+									<div class="d-flex align-items-center">
+										<div class="ms-4">
+											<a th:href="@{/project/} + *{projectId}"
+												class="text-decoration-none">
+												 <p class="fw-bold small mb-0" th:text="*{title}">Web Development</p>
+											</a>
+											<div class="d-flex py-1 align-items-center">
+												<i class="fa-solid fa-people-group"></i> <span class="px-2"
+													th:text="*{projectRoles.size()}">number</span>
+											</div>
+										</div>
+									</div>
+								</td>
+
+								<!-- Project Type -->
+								<td class="py-4 px-6">
+									<p th:text="*{type}">Mock</p>
+								</td>
+
+								<!-- Project Description -->
+								<td class="py-4 px-6">
+									<p th:text="*{description}">Description placeholder</p>
+								</td>
+
+								<td class="py-4 px-6"></td>
+
+								<td class="py-4 px-6">
+
+									<div
+										class="d-flex mb-n1 me-6 align-items-center justify-content-end">
+										<a
+											class="btn btn-sm btn-info-light d-flex align-items-center justify-content-center"
+											th:href="@{/project/} + *{projectId}" th:if="${isUser}">
+											<span>View</span>
+										</a>
+																				
+										<a class="mx-2 btn btn-sm btn-danger" 
+										th:href="@{'/project/' + *{projectId} + '/delete'}" th:if="${isUser}">Delete</a>
+									</div>
+									
+								</td>
+								
+								
+								
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

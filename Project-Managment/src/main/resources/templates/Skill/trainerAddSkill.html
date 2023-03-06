@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>User Profile</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Form -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<!-- Breadcrumb -->
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/profile} + ${session.user.id}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-user"></i>
+									</span> <span class="text-secondary">Profile</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center" href="">
+										<span class="d-inline-block me-2"> <i
+											class="fa-solid fa-toolbox"></i>
+									</span> <span class="text-secondary">Add skills</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+
+					<!-- Form: add to skill pool -->
+					<form class="py-5">
+						<h3 class="h5 mb-2">Add to skill pool</h3>
+
+						<!-- Skill title -->
+						<div class="pt-5 form-group">
+							<label class="form-label" for="">Skill Title</label> <input
+								class="form-control" type="text" name="field-name"
+								placeholder="Enter skill title." required />
+						</div>
+
+						<!-- Skill description -->
+						<div class="mb-6 pt-5 form-group">
+							<label class="form-label" for="">Description</label>
+							<textarea class="form-control" name="field-name" rows="3"
+								placeholder="Enter skill description" required></textarea>
+						</div>
+						<button class="btn btn-primary" type="submit">Submit</button>
+					</form>
+				</div>
+			</div>
+		</section>
+	</div>
+	<div th:insert="util/util:: js  " />
+</body>

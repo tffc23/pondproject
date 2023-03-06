@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>User Profile</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<!-- Breadcrumb -->
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/profile/} + ${session.user.id}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-house-chimney"></i>
+									</span> <span class="text-secondary">Profile</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/traineeSkill}"> <span class="d-inline-block me-2">
+											<i class="fa-solid fa-toolbox"></i>
+									</span> <span class="text-secondary">Skill</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center" href="">
+										<span class="d-inline-block me-2"> <i
+											class="fa-solid fa-circle-plus"></i>
+									</span> <span class="text-secondary">Add skill</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+					<!-- Form -->
+					<form class="py-5" th:action="@{/saveTraineeSkill/}" method="post">
+						<h3 class="h5 mb-2">Add skill</h3>
+														
+							<div class="pt-5 form-group">
+								<div class="mb-3">
+									<label class="mb-2">Skills</label>
+																											
+							<select class="form-select" th:name="id">
+   								<option th:each="approvedSkill : ${listOfApprovedSkills}" th:object="${approvedSkill}" th:value="*{id}" th:text="*{title}" >
+   								</option>
+							</select>
+							
+								</div>
+							</div>
+							
+							<div class="pt-5 form-group">
+								<div class="mb-3">
+									<label class="mb-2" >Skill Levels</label>		
+									<select class="form-select" th:name="level">
+										<option th:each="skillLevel:${skillLevels}" th:text="${skillLevel}" th:value="${skillLevel}">Basic</option>
+									</select>
+								</div>
+							</div>
+
+						<button class="btn btn-primary mt-3" type="submit">Add</button>
+						<a class="btn btn-secondary mt-3" th:href="@{/suggestSkill}">
+							Suggest skill</a>
+					</form>
+				</div>
+			</div>
+		</section>
+
+	</div>
+	<div th:insert="util/util:: js  " />
+</body>

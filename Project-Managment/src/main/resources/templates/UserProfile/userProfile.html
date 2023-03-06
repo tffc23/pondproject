@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>User Profile</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="" th:object="${user}">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- User Information -->
+		<div th:insert="~{UserProfile/userInfo::userInfo}" />
+
+		<!-- Skills (trainee only) -->
+		<div th:if="${user.role.name() == 'Trainee'}">
+			<!-- Skill is null -->
+			<div th:if="!${listOfTraineeSkills}"
+				th:insert="~{userProfile/userInfo::noSkills}"></div>
+
+			<!-- Skill is not null -->
+			<div th:if="${listOfTraineeSkills}">
+				<!-- No Skills added -->
+				<div th:if="${listOfTraineeSkills.size()!=0} "
+					th:insert="~{userProfile/userInfo::skills}" />
+				<!-- Has Skills -->
+				<div th:if="${listOfTraineeSkills.size()==0} "
+					th:insert="~{userProfile/userInfo::noSkills}" />
+			</div>
+		</div>
+
+		<!-- Approve Skills (trainer only) -->
+		<div th:if="${user.role.name() == 'Trainer'}"
+			th:insert="~{userProfile/userInfo::approveSkill}" />
+
+		<!-- Projects Created -->
+		<div th:if="${listOfProjects.size()==0}"
+			th:insert="~{userProfile/projectsCreated::createProject}" />
+		<div th:if="${listOfProjects.size()!=0}"
+			th:insert="~{userProfile/projectsCreated::projectsCreated}" />
+
+		<!-- Projects Participated (trainee only) -->
+		<div th:if="${user.role.name() == 'Trainee'}"
+			th:insert="~{userProfile/projectsParticipated}" />
+
+		<!-- Portfolio (trainee only) -->
+		<div th:if="${user.role.name() == 'Trainee'}">
+			<div th:if="${portfolios.size()==0}"
+				th:insert="~{userProfile/portfolio::emptyPortfolio}" />
+			<div th:if="${portfolios.size()!=0}"
+				th:insert="~{userProfile/portfolio::portfolio}" />
+		</div>
+	</div>
+
+	</div>
+	<div th:insert="util/util:: js  " />
+</body>
+</html>

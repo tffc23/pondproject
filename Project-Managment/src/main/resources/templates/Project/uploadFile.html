@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Upload Files</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+<body>
+	<div class="" th:object="${project}">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Edit Profile -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<!-- Breadcrumb -->
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/profile/} + ${session.user.id}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-house-chimney"></i>
+									</span> <span class="text-secondary">Home</span>
+								</a></li>
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{'/project/'+${projectId}}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-file-lines"></i>
+									</span> <span class="text-secondary">Project</span>
+								</a></li>
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center" href="">
+										<span class="d-inline-block me-2"> <i
+											class="fa-solid fa-upload"></i>
+									</span> <span class="text-secondary">Upload File</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+
+					<div class="py-8">
+						<h3 class="h5 mb-2">Upload File</h3>
+						<form class="pt-5" th:action="@{/upload}" method="post"
+							enctype="multipart/form-data">
+
+							<div class="form-group">
+								<input th:name="projectId" th:value="${projectId}" hidden />
+
+								<div class="mb-6">
+									<input class="form-control" type="file" name="file" />
+								</div>
+
+								
+								
+								<div th:if="${message}" th:text="${message}"></div>
+							</div>
+
+							<button class="btn btn-primary" type="submit">Upload</button>
+							<a class="btn btn-light" th:href="@{'/profile/'+${user.id}}">Cancel</a>
+						</form>
+
+
+					</div>
+				</div>
+		</section>
+</body>
+</html>

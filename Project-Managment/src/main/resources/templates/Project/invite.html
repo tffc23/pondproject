@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Add Role</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Form to add roles -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<!-- Breadcrumb -->
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/profile/} + ${session.user.id}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-house-chimney"></i>
+									</span> <span class="text-secondary">Home</span>
+								</a></li>
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{'/project/'+${projectRole.project.projectId}}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-file-lines"></i>
+									</span> <span class="text-secondary">Project</span>
+								</a></li>
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-envelope-open-text"></i>
+									</span> <span class="text-secondary">Invite</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+
+					<!-- Form -->
+					<form class="py-5" th:object="${notification}"
+						th:action="@{/inviteRole}" method="post">
+						
+						<!-- Heading -->
+						<h3 class="h5 mb-2">Invite</h3>
+						
+						<!-- Role description -->
+						<div class="mb-6">
+							<label class="form-label" for=""><b>Role Title</b>: <span
+								th:text="${projectRole.title}"></span></label>
+						</div>
+
+						<div class="mb-6">
+							<label class="form-label" for=""><b>Role Description</b>:
+								<span th:text="${projectRole.description}"></span></label>
+						</div>
+						
+						<div class="mb-6">
+							<label class="form-label" for=""><b>Skills</b>: <span
+								class="btn btn-outline-dark mx-2 btn-sm"
+								th:each="skill:${projectRole.skills}" th:text="${skill.title}"> </span></label>
+						</div>
+						
+					
+						<div class="pt-5 form-group">
+
+							<input th:name="pid" th:value="${projectRole.project.projectId}" hidden/>
+							<input th:field="*{notif_title}" hidden /> 
+							<input th:field=*{notif_text} hidden>
+							<input th:field=*{sender} hidden>
+
+							<div class="mb-6">
+								<label class="form-label" for=""><b>Invite Trainee </b></label>
+								<select class="form-select" th:field="${notification.owner}" >
+									<option th:each="trainee: ${trainees}"
+										th:object="${trainee}" 
+										th:value="${{trainee}}"
+										th:text="*{firstName} + ' ' + *{lastName}"></option>
+								</select>
+							</div>
+
+						</div>
+
+						<button id="invite" class="btn btn-primary" type="submit">Invite</button>
+						<a class="btn btn-light"
+							th:href="@{'/project/'+${projectRole.project.projectId}}">Cancel</a>
+					</form>
+				</div>
+			</div>
+		</section>
+		<div th:insert="~{util/util:: js}" />
+		<script>
+
+			document.getElementById('invite').onclick = function() {
+
+			alert("Invited!");
+
+			};
+
+		</script>
+		
+	</div>
+</body>
+</html>

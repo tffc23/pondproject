@@ -1,0 +1,50 @@
+<div th:fragment="head">
+
+	<meta charset="utf-8" />
+
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- Google Fonts -->
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+
+	<!-- Bootstrap -->
+
+	<link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.min.css}" />
+
+	<!-- Font Awesome -->
+	<script src="https://kit.fontawesome.com/92101b3629.js"
+		crossorigin="anonymous"></script>
+
+	<!-- Repeat elements -->
+	<script src="/js/repeat.min.js"></script>
+
+	<!-- Bootstrap Multiselect CSS -->
+	<link rel="stylesheet" th:href="@{/css/bootstrap-multiselect.css}">
+</div>
+
+<div th:fragment="js">
+
+	<!-- Bootstrap Multiselect JS -->
+	<script data-main="dist/js/" th:src="@{/js/require.min.js}"></script>
+
+	<script th:src="@{../../assets/vendor/jquery/dist/jquery.min.js}"></script>
+	<script
+		th:src="@{../../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+
+</div>
+
+<div th:fragment="timeConvertor">
+
+	<script
+		th:src="@{../../assets/js/components/timeConvertor/timeConvertor.js}"></script>
+	<script th:src="@{../../assets/js/components/timeConvertor/curTime.js}"></script>
+
+</div>
+
+<div th:fragment="timeConverter">
+
+	<script th:src="@{/js/timeConverter.js}"></script>
+
+</div>

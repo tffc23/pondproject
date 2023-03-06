@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>User Profile</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="" th:object="${user}">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Change Skill Level -->
+
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/profile/} + ${session.user.id}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-user"></i>
+									</span> <span class="text-secondary">Profile</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/traineeSkill}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-toolbox"></i>
+									</span> <span class="text-secondary">Skill</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-circle-plus"></i>
+									</span> <span class="text-secondary">Change Skill Level</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+					<form class="py-5" th:object="${traineeSkill}"
+						th:action="@{/updateTraineeSkill}" method="post">
+						<h3 class="h5 mb-2">
+							Change Skill Level for <span class="text-info"
+								th:text="*{skill.title}"><u>Python</u></span>
+						</h3>
+
+						<input th:field="*{id}" hidden />
+
+						<div class="pt-5 form-group">
+							<div class="mb-3">
+								<label class="mb-2">Skill Level</label> <select
+									class="form-select" th:field="*{skillLevel}">
+									<option th:each="level:${skillLevels}" th:value="${level}"
+										th:text="${level}">Basic</option>
+								</select>
+							</div>
+						</div>
+
+						<button class="btn btn-primary mt-3" type="submit">Save</button>
+					</form>
+				</div>
+			</div>
+		</section>
+
+		<div th:insert="util/util:: js  " />
+</body>
+</html>

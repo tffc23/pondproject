@@ -1,0 +1,79 @@
+<div th:fragment="navbar">
+	<section>
+		<!-- Navigation Bar -->
+		<nav class="navbar navbar-expand-xl navbar-light bg-white flex-wrap">
+			<div class="container-fluid">
+				<div class="d-flex w-100 align-items-center">
+					<!-- Search Bar -->
+					<div class="input-group me-4 pe-4 mw-xs">
+						<button class="btn btn-sm text-secondary p-0 me-3" type="button">
+							<i class="fa-solid fa-magnifying-glass fa-lg"></i>
+						</button>
+						<a class="btn bg-white text-muted p-0 me-3 align-items-center"
+							th:href="@{/search}"> Type to search...</a>
+					</div>
+					<button class="navbar-toggler bg-primary-light ms-auto"
+						type="button">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse">
+						<ul class="navbar-nav me-6 ms-auto align-items-center">
+
+							<!-- Home -->
+							<li class="nav-item me-6"><a
+								class="nav-link text-secondary p-0" th:href="@{/}"> <i
+									class="fa-solid fa-house-chimney"></i>
+							</a></li>
+
+							<!-- Profile -->
+							<li class="nav-item me-6"><a
+								class="nav-link text-secondary p-0" th:href="@{/profile/} + ${session.user.id}"> <i
+									class="fa-solid fa-user"></i>
+							</a></li>
+
+							<!-- Notifications -->
+							<li class="nav-item px-0"><a
+								class="nav-link text-secondary p-0" th:href="@{/notification}">
+									<i class="fa-solid fa-bell text-danger" th:if="${hasNotif}"></i>
+									<i class="fa-solid fa-bell" th:if="!${hasNotif}"></i>
+							</a></li>
+
+							<!-- User Info -->
+							<li class="nav-item px-6 dropdown">
+								<button class="btn p-0 fw-normal d-flex align-items-center"
+									data-toggle="dropdown">
+									<div class="me-3">
+										<p class="mb-0 small"
+											th:text="${session.user.firstName} + ' ' + ${session.user.lastName}">Thomas
+											Brown</p>
+										<p class="mb-0 small text-secondary"
+											th:text="${session.user.role.name()}">Trainee</p>
+									</div>
+									<div class="me-2">
+										<i class="fa-solid fa-circle-user fa-xl"></i>
+									</div>
+									<span> <i class="fa-solid fa-chevron-down "></i>
+									</span>
+								</button>
+								<div class="dropdown-menu dropdown-menu-left">
+
+									<a th:href="@{/profile/} + ${session.user.id}" class="dropdown-item"> <i
+										class="fa-solid fa-user"></i> <span class="mb-0 small  px-2">My
+											profile</span>
+									</a> <a th:href="@{/resetPassword}" class="dropdown-item"> <i
+										class="fa-solid fa-lock"></i> <span class="mb-0 small px-2">Reset
+											password</span>
+									</a> <a th:href="@{/logout}" class="dropdown-item"> <i
+										class="fa-solid fa-right-from-bracket"></i> <span
+										class="mb-0 small px-2">Logout</span>
+									</a>
+								</div>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</nav>
+	</section>
+</div>

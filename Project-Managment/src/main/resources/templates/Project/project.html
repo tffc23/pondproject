@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title th:text="${project.title}"></title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Project Header -->
+		<section th:object="${project}">
+			<div class="pb-8 px-6 bg-white">
+				<div class="row align-items-center">
+					<div class="col-12 col-lg-auto mb-4 mb-lg-0 me-auto">
+						<div class="d-flex align-items-center">
+							<span
+								class="d-inline-block p-4 me-4 justify-content-center align-items-center text-white bg-primary rounded"
+								style="width: 56px; height: 56px"> <i
+								class="fa-solid fa-file-lines fa-2xl"></i>
+							</span>
+							<div>
+								<h4 th:text="*{title}">Project Name</h4>
+								<p class="mb-0 small text-secondary">
+									Created by <a th:href="@{'/profile/' + *{creator.id}}"
+										style="text-decoration: none"> <b
+										th:text="*{creator.firstName} + ' '+ *{creator.lastName}">Project
+											Owner</b>
+									</a>
+								</p>
+								<p class="mb-0 small text-secondary" th:text="*{description}">
+									Placeholder for project description.</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Buttons: Edit Project -->
+					<div class="col-12 col-lg-auto"
+						th:if="${project.creator.id == session.user.id}">
+						</a> <a
+							class="btn btn-sm btn-primary d-inline-flex align-items-center small"
+							th:href="@{'/project/' + *{projectId} + '/edit'}"> <span
+							class="d-inline-block me-2 text-primary-light"> <i
+								class="fa-solid fa-pen-to-square"></i>
+						</span> <span>Edit Project</span>
+						</a>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<!-- Time Convertor -->
+		<section class="pt-8">
+			<div class="container" id="ConversionResultsDIV"
+				onload="updateTimeZone()">
+				<div class="pt-4 bg-white rounded shadow">
+					<div
+						class="px-6 pb-5 border-bottom border-light d-flex justify-content-between ">
+						<div>
+							<h5>Time Converter</h5>
+							<p class="mb-0 small text-secondary">Working With Teams in
+								Different Timezones?</p>
+						</div>
+						<div>
+							<button class="btn btn-primary-light" id="view"
+								onclick="hideTimeConverter()">Hide</button>
+						</div>
+					</div>
+					<div class="py-3 px-6">
+						<div class="datetime">
+							<p>
+								<span class="h6">Local Time: </span><span class="time" id="time">Loading
+									...</span>
+							</p>
+
+							<div id="selected-time" style="Display: none">
+								<p>
+									<b> Time in <span id="location"></span></b>: <span id="select"></span>
+								</p>
+
+							</div>
+						</div>
+
+						<div class="" id="timeConverter">
+
+							<div class="mb-6">
+								<label class="form-label">Select location</label>
+								<!-- Options -->
+								<select class="form-select" name="cities" id="cities"
+									onchange="updateTimeZone()">
+									<optgroup label="Asia-Pacific">
+										<option th:value="600" selected>Sydney</option>
+										<option th:value="480">Beijing</option>
+										<option th:value="480">Singapore</option>
+										<option th:value="330">Mumbai</option>
+									</optgroup>
+									<optgroup label="Europe">
+										<option th:value="60">Berlin</option>
+										<option th:value="0">London</option>
+										<option th:value="60">Paris</option>
+										<option th:value="180">Moscow</option>
+									</optgroup>
+									<optgroup label="North America">
+										<option th:value="-300">New York (EST)</option>
+										<option th:value="-480">San Francisco (PST)</option>
+										<option th:value="-480">Vancouver</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+		</section>
+
+		<!-- Project roles -->
+		<section class="pt-8">
+			<div class="container">
+				<div class="pt-4 bg-white rounded shadow">
+					<div
+						class="px-6 pb-5 border-bottom border-light d-flex justify-content-between ">
+						<div>
+							<h5>Project Roles</h5>
+							<p class="mb-0 small text-secondary">
+								Total <span th:text="${project.projectRoles.size()}" /> roles
+							</p>
+						</div>
+						<div th:if="${isMember}">
+							<a
+								class="btn btn-sm btn-primary-light me-3 d-inline-flex align-items-center small"
+								th:href="@{'/project/'+ ${project.projectId} + '/addRole' }">
+								<span class="d-inline-block me-2 text-primary"> <i
+									class="fa-solid fa-user-plus"></i>
+							</span> <span>Add roles</span>
+							</a>
+						</div>
+					</div>
+
+					<!-- No roles -->
+					<div
+						class="p-4 mb-2 rounded d-flex align-items-center justify-content-between"
+						th:if="${project.projectRoles.size()==0}">
+						<div class="d-flex align-items-center">
+							<span
+								class="d-flex justify-content-center align-items-center rounded text-primary bg-primary-light"
+								style="width: 40px; height: 40px; object-fit: cover"> <i
+								class="fa-solid fa-people-group"></i>
+							</span>
+							<div class="ms-3">
+								<h4 class="mb-0 small">Team Empty</h4>
+								<p class="mb-0 text-secondary small">This project does not
+									have any roles yet.</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Has Roles -->
+					<div class="table-responsive px-5 "
+						th:if="!${project.projectRoles.size()==0}">
+						<table class="table mb-0 small">
+							<!-- Table Head -->
+							<thead class="table-primary-light">
+								<tr>
+									<th class="py-4 pl-6 text-secondary">Role</th>
+									<th class="py-4 pl-6 text-secondary">Description</th>
+									<th class="py-4 pl-6 text-secondary">Trainee</th>
+									<th class="py-4 pl-6 text-secondary">Skills</th>
+									<th class="py-4 pl-6 text-secondary"></th>
+								</tr>
+							</thead>
+							<!-- Table Body => Trainees -->
+							<tbody>
+								<tr class="border-light" th:each="role:${project.projectRoles}"
+									th:object="${role}">
+									<td class="py-4 pl-6">
+										<p class="fw-bold small mb-0" th:text="*{title}">Role
+											title</p>
+									</td>
+
+									<td class="py-4 pl-6"><p class="text-secondary fw-bold"
+											th:text="*{description}">Role description</p></td>
+
+									<td class="py-4 pl-6">
+										<div class="d-flex align-items-center">
+											<div class="" th:if="${role.participant}">
+												<a th:href="@{/profile/} + ${role.participant.id}"
+													class="text-decoration-none"> <b
+													class="fw-bold small mb-0 text-decoration"
+													th:text="${role.participant.firstName} + ' ' + ${role.participant.lastName}">
+												</b>
+												</a>
+											</div>
+											<div th:unless="${role.participant}">
+												<a class="btn btn-danger btn-sm me-2">Open for
+													application</a>
+											</div>
+										</div>
+									</td>
+									<td class="py-4 pl-6">
+										<div class="d-flex mb-n1 me-6 align-items-center">
+											<a class="btn btn-sm me-2 mb-1 btn-outline-secondary small"
+												th:each="skill:*{skills}" th:text="${skill.title}">Skills</a>
+										</div>
+									</td>
+									<td class="py-4 pl-6">
+										<!-- Not Member of the project -->
+										<div class="d-flex mb-n1 me-6 align-items-center"
+											th:if="!${isMember}">
+
+											<div th:if="!${role.participant}">
+												<!-- Apply  -->
+												<div
+													th:if="!${#sets.contains(role.applicants, session.user)}">
+													<a class="btn btn-primary btn-sm me-2"
+														th:unless="${role.participant}" id="apply"
+														th:href="@{'/project/' + ${project.projectId} + '/apply/' + *{id}}">
+														Apply </a>
+												</div>
+
+												<div
+													th:if="${#sets.contains(role.applicants, session.user)}">
+													<a class="btn btn-primary btn-sm me-2">Processing your
+														application...</a>
+												</div>
+
+
+											</div>
+
+										</div> <!-- Is Member of the Project -->
+										<div class="d-flex mb-n1 me-6 align-items-center"
+											th:if="${isMember}">
+											<!-- Edit Role title or Description -->
+											<div th:if="!${role.participant}">
+												<!-- Invite  -->
+												<a class="btn btn-primary btn-sm me-2"
+													th:href="@{'/project/' + ${project.projectId} + '/invite/' + *{id}}">
+													Invite </a>
+
+												<!-- Assign  -->
+												<a class="btn btn-primary btn-sm me-2" th:if="${isCreator}"
+													th:href="@{'/project/' + ${project.projectId} + '/assign/' + *{id}}">
+													Assign </a>
+											</div>
+
+											<div th:if="${role.participant}">
+												<a class="btn btn-primary btn-sm me-2"
+													th:href="@{'/project/' + ${project.projectId} + '/remove/' + *{id}}">
+													Remove Participant </a>
+											</div>
+
+											<!-- Edit -->
+											<a class="btn btn-info btn-sm me-2"
+												th:href="@{'/project/' + ${project.projectId} + '/editRole/' + *{id}}">
+												Edit Role </a>
+											<!-- Delete -->
+											<a class="btn btn-danger btn-sm me-2"
+												th:href="@{'/project/' + ${project.projectId} + '/deleteRole/' + *{id}}">
+												Delete Role </a>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Meeting Planner -->
+		<section th:if="${isMember}">
+			<div class="container pt-8">
+				<div class="row" th:if="${project.tasks.size()!=0}">
+					<div class="col-12 col-lg-4 mb-6 mb-lg-0 pb-6"
+						th:if="!${project.projectRoles.size()==0}"
+						th:each="task:${project.tasks}" th:object="${task}">
+						<div
+							class="h-100 d-flex flex-column bg-white rounded shadow overflow-hidden overflow-hidden">
+							<div class="pt-6 pb-8 px-6 mb-5">
+								<div
+									class="d-flex align-items-center justify-content-between mb-8">
+									<span class="small text-secondary">Upcoming event</span>
+									<!-- Delete Task -->
+									<a
+										th:href="@{'/project/' + ${project.projectId} + '/deleteTask/' + *{id}}">
+										<i class="fa-solid fa-xmark text-primary"></i>
+									</a>
+								</div>
+
+								<!-- Task Info -->
+								<div>
+									<h3 class="h5 mb-2" th:text="*{title}">Title</h3>
+									<p class="small text-secondary" th:text="*{brief}">Brief</p>
+								</div>
+							</div>
+							<div
+								class="py-6 px-6 d-flex align-items-center justify-content-between bg-light-light">
+								<div>
+									<span class="d-block mb-2 text-secondary small">Due Date</span>
+									<span class="badge bg-danger-light text-danger rounded-pill"
+										th:text="*{dueDate}">due</span>
+								</div>
+								<a class="btn btn-sm btn-primary"
+									th:href="@{'/project/' + ${project.projectId} + '/editTask/' + *{id}}">Update</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-12 col-lg-4 mb-8">
+						<div class="h-100 p-6 bg-white rounded shadow text-center">
+							<img class="mx-auto mb-6 img-fluid"
+								src="../../assets/img/friends.png" alt=""
+								style="width: 96px; height: 96px;">
+							<h3 class="h5 mb-2">Create a new event</h3>
+							<span class="d-block mb-6 small text-secondary">Publish a
+								new event on dashboard</span> <a class="btn btn-sm btn-primary"
+								th:href="@{'/project/' + *{id} + '/createTask'}">Create</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- When no events planned -->
+				<div class="pt-4 bg-white rounded shadow"
+					th:if="${project.tasks.size()==0}">
+					<div
+						class="px-6 pb-5 border-bottom border-light d-flex justify-content-between ">
+						<div>
+							<h5>Meeting Scheduler</h5>
+							<p class="mb-0 small text-secondary">Total 0 events</p>
+						</div>
+						<div>
+							<a
+								class="btn btn-sm btn-primary-light me-3 d-inline-flex align-items-center small"
+								th:href="@{'/project/' + *{id} + '/createTask'}"> <span
+								class="d-inline-block me-2 text-primary"> <i
+									class="fa-solid fa-calendar-days"></i>
+							</span> <span>Create Event</span>
+							</a>
+						</div>
+					</div>
+					<div
+						class="p-4 mb-2 rounded d-flex align-items-center justify-content-between">
+						<div class="d-flex align-items-center">
+							<span
+								class="d-flex justify-content-center align-items-center rounded text-primary bg-primary-light"
+								style="width: 40px; height: 40px; object-fit: cover"> <i
+								class="fa-solid fa-calendar"></i>
+							</span>
+							<div class="ms-3">
+								<h4 class="mb-0 small">No events scheduled</h4>
+								<p class="mb-0 text-secondary small">This project doesn't
+									have any planned events.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Project Files -->
+		<section class="py-8" th:if="${isMember}">
+			<div class="container">
+				<div class="pt-4 bg-white rounded shadow">
+					<div
+						class="px-6 pb-5 border-bottom border-light d-flex justify-content-between ">
+						<div>
+							<h5>Project Files</h5>
+							<p class="mb-0 small text-secondary">
+								Total <span th:text="${project.projectFiles.size()}" /> files
+							</p>
+						</div>
+						<div th:if="${isMember}">
+							<a
+								class="btn btn-sm btn-primary-light me-3 d-inline-flex align-items-center small"
+								th:href="@{'/uploadFile/' + ${project.projectId}}"> <span
+								class="d-inline-block me-2 text-primary"> <i
+									class="fa-solid fa-arrow-up-from-bracket"></i>
+							</span> <span>Upload File</span>
+							</a>
+						</div>
+					</div>
+
+					<!-- No project files -->
+					<div
+						class="p-4 mb-2 rounded d-flex align-items-center justify-content-between"
+						th:if="${project.projectFiles.size()==0}">
+						<div class="d-flex align-items-center">
+							<span
+								class="d-flex justify-content-center align-items-center rounded text-primary bg-primary-light"
+								style="width: 40px; height: 40px; object-fit: cover"> <i
+								class="fa-solid fa-file"></i>
+							</span>
+							<div class="ms-3">
+								<h4 class="mb-0 small">Files Empty</h4>
+								<p class="mb-0 text-secondary small">This project doesn't
+									have any files yet.</p>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+				<div th:each="file : ${project.projectFiles}"
+					class="ps-4 pe-5 py-4 mb-2 bg-white rounded shadow">
+					<div class="row">
+						<div class="col-12 col-lg-auto mb-4 mb-lg-0">
+							<div class="d-flex align-items-center">
+								<img class="me-3 img-fluid" style="width: 24px; height: 24px"
+									src="artemis-assets/images/file-mp4.svg" alt="" />
+								<h4 class="mb-0 small" th:text="${file.name}">Example file
+									name</h4>
+							</div>
+						</div>
+						<div class="col-12 col-lg-auto ms-auto">
+							<a class="btn btn-info btn-sm me-2"
+								th:href="@{/download/{id}(id=${file.id})}"> Download </a> <a
+								class="btn btn-danger btn-sm me-2"
+								th:href="@{/delete/{id}(id=${file.id})}"> Delete </a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<div th:insert="~{util/util:: js}" />
+		<div th:insert="~{util/util::timeConverter}" />
+
+
+		<script>
+			document.getElementById('apply').onclick = function() {
+				alert("Applied!");
+			};
+		</script>
+</body>
+</html>

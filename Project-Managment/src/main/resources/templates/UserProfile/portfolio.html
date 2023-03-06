@@ -1,0 +1,85 @@
+
+<div th:fragment="emptyPortfolio">
+	<section class="py-8">
+		<div class="container">
+			<!-- Create portfolio -->
+			<div th:if="${isUser}">
+				<div class="h-100 p-6 bg-white rounded shadow text-center">
+					<img class="mx-auto mb-6 img-fluid"
+						src="../../assets/img/friends.png" alt=""
+						style="width: 96px; height: 96px;">
+					<h3 class="h5 mb-2">Publish a new portfolio</h3>
+					<span class="d-block mb-6 small text-secondary">Create a new
+						collections of projects</span> <a class="btn btn-sm btn-primary"
+						th:href="@{'/create/portfolio'}">Create</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div th:fragment="portfolio">
+	<section class="py-8">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-6 col-lg-4 mb-8 mb-lg-0 pb-6"
+					th:each="portfolio:${portfolios}">
+					<div class="p-4 bg-white rounded shadow">
+						<div class="position-relative mb-4">
+							<img class="img-fluid w-100 rounded"
+								style="height: 155px; object-fit: cover;"
+								src="https://images.unsplash.com/photo-1483959651481-dc75b89291f1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=301&amp;q=80"
+								alt=""> <span
+								class="position-absolute top-0 end-0 mt-2 me-2 bg-primary py-1 px-2 text-white rounded small"
+								th:text="'Total projects : ' + ${portfolio.projects.size}">14
+								Projects</span>
+						</div>
+						<div class="pb-4">
+							<div class="d-flex align-items-center justify-content-between">
+								<div>
+									<h3 class="small" th:text="${portfolio.title}">Portfolio 1</h3>
+									<p class="text-secondary small"
+										th:text="${portfolio.description}" />
+								</div>
+							</div>
+							<div class="d-flex align-items-center justify-content-between">
+								<h4 class="mb-0 small">Date Created:</h4>
+								<span class="d-inline-block text-info small"
+									th:text="${portfolio.createdDate}">6 days ago</span>
+							</div>
+						</div>
+						<div class="pt-4 border-top border-light">
+							<div class="d-flex w-100 align-items-center justify-content-end">
+								<a
+									class="btn btn-sm btn-info-light d-flex align-items-center justify-content-center"
+									th:href="@{/portfolio/} + ${portfolio.id}"> <span>See
+										details</span>
+								</a> <a class="mx-2 btn btn-sm btn-danger"
+									th:href="@{'/portfolio/' + ${portfolio.id} + '/delete'}"
+									th:if="${isUser}">Delete</a>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Create portfolio -->
+				<div th:if="${isUser}" class="col-12 col-lg-4">
+					<div class="h-100 p-6 bg-white rounded shadow text-center">
+						<img class="mx-auto mb-6 img-fluid"
+							src="../../assets/img/friends.png" alt=""
+							style="width: 96px; height: 96px;">
+						<h3 class="h5 mb-2">Publish a new portfolio</h3>
+						<span class="d-block mb-6 small text-secondary">Create a
+							new collections of projects</span> <a class="btn btn-sm btn-primary"
+							th:href="@{'/create/portfolio'}">Create</a>
+					</div>
+				</div>
+
+
+
+			</div>
+
+		</div>
+	</section>
+</div>

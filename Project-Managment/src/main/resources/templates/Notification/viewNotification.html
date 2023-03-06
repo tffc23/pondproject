@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Home</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Notification -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<div class="d-flex w-100 align-items-center">
+						<!-- Breadcrumb -->
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/}"> <span class="d-inline-block me-2"> <i
+											class="fa-solid fa-house-chimney"></i>
+									</span> <span class="text-secondary">Home</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/profile/} + ${session.user.id}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-bell"></i>
+									</span> <span class="text-secondary">Notification</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-envelope"></i>
+									</span> <span class="text-secondary">View Notification</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+
+					<form class="py-8" th:object="${notification}">
+						<div class="d-flex align-items-center mb-6">
+							<span
+								class="flex-shrink-0 d-inline-flex p-3 justify-content-center align-items-center text-primary bg-primary-light rounded-circle">
+								<i class="fa-solid fa-envelope"></i>
+							</span>
+							<div class="ms-3">
+								<h6>
+									<div th:if="*{sender}">
+										<span>From:</span><a th:href="@{'/profile/' + *{sender.id}}" style="text-decoration: none">
+											<span th:text="*{sender.firstName}+' '+*{sender.lastName}"></span>
+										</a>
+									</div>
+									<div th:if="!*{sender}">
+										<span>From: System</span>
+									</div>
+								</h6>
+								
+								<h5 th:text="'Title: ' + *{notif_title}">Notification Title</h5>
+							</div>
+							
+						</div>
+
+						<p class="px-10 mb-8" th:text="*{notif_text}">Notification
+							body: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Curabitur et accumsan ipsum. Pellentesque in dignissim libero.
+							Morbi vehicula mollis consectetur. Donec pharetra vehicula est.</p>
+
+
+						<a class="btn btn-danger small"
+							th:href="@{'/notification/delete/' + *{notif_id}}"> Delete</a> <a
+							class="btn btn-info-light small mx-2" th:href="@{/notification}">Back</a>
+
+
+					</form>
+				</div>
+			</div>
+		</section>
+		<div th:insert="util/util:: js  " />
+</body>
+</html>

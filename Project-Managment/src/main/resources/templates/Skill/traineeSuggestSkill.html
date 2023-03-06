@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>User Profile</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/profile/} + ${session.user.id}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-user"></i>
+									</span> <span class="text-secondary">Profile</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/traineeSkill}"> <span class="d-inline-block me-2">
+											<i class="fa-solid fa-toolbox"></i>
+									</span> <span class="text-secondary">Skill</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center" href="">
+										<span class="d-inline-block me-2"> <i
+											class="fa-solid fa-circle-plus"></i>
+									</span> <span class="text-secondary">Suggest skills</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+					<form class="py-5" th:object="${newSkill}" th:action="@{/saveSuggestedSkill}" method="post">
+						<h3 class="h5 mb-2">Suggest a skill</h3>
+						
+						<input th:field="*{id}" hidden />
+						<input th:field="*{status}" hidden />
+						
+						<div class="pt-5 form-group">
+							<label class="form-label" for="">Skill Title</label> <input
+								class="form-control" type="text" th:field="*{title}"
+								placeholder="Enter skill title." required />
+						</div>
+						<div class="mb-6 pt-5 form-group">
+							<label class="form-label" for="">Description</label>
+							<textarea class="form-control" th:field="*{description}" rows="3"
+								placeholder="Enter skill description" required></textarea>
+						</div>
+						<button class="btn btn-primary" type="submit">Submit</button>
+					</form>
+				</div>
+			</div>
+		</section>
+
+	</div>
+	<div th:insert="util/util:: js  " />
+</body>

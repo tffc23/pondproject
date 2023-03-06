@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Add Role</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Form to add roles -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<!-- Breadcrumb -->
+					<div class="d-flex w-100 align-items-center">
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/}"> <span class="d-inline-block me-2"> <i
+											class="fa-solid fa-house-chimney"></i>
+									</span> <span class="text-secondary">Home</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{'/profile/'+${user.id}}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-user"></i>
+									</span> <span class="text-secondary">Profile</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/create/project}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-file-lines"></i>
+									</span> <span class="text-secondary">Create Project</span>
+								</a></li>
+
+							</ol>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12">
+							<form class="py-5" method="post" th:object="${project}"
+								th:action="@{/saveProject}">
+
+								<!-- Heading -->
+								<h3 class="h5 mb-2">Create New Project</h3>
+
+								<div class="pt-5 form-group">
+
+									<!-- avoid duplicates for editting-->
+									<input th:field="*{creator}" hidden />
+									<!-- Project Type -->
+									<input id="mock" th:field="*{type}" hidden />
+
+									<!-- Project Type -->
+									<div class="">
+										<label class="form-label"><b>Project Type</b>: <span
+											th:text="*{type}">Type</span></label>
+									</div>
+
+									<!-- Project Title -->
+									<div class="mb-6">
+										<label class="form-label">Title:</label> <br> <input
+											class="form-control" th:field="*{title}"
+											placeholder="Create a title for this project" required />
+									</div>
+									<!-- Project Description -->
+									<div class="mb-6">
+										<label class="form-label">Description:</label>
+										<textarea class="form-control" th:field="*{description}"
+											placeholder="Tell others a bit about this project" required />
+									</div>
+								</div>
+								<!-- Create button -->
+								<button class="btn btn-primary" type="submit">Create</button>
+								<a class="btn btn-light"
+								th:href="@{'/profile/'+${user.id}}">Cancel</a>
+
+							</form>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+		<div th:insert="util/util:: js  " />
+	</div>
+</body>
+</html>

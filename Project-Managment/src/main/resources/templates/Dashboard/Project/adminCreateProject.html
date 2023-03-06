@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<!--<html>-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Create Project</title>
+    <div th:insert="util/cdnInjection :: head-css"></div>
+
+</head>
+
+<body>
+<!-- Sidenav -->
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main"
+     th:insert="util/cdnInjection :: navbarSideLoggedIn"></nav>
+<!-- Main content -->
+<div class="main-content" id="panel">
+    <!-- Topnav -->
+    <div th:insert="util/cdnInjection :: navbarTopLoggedIn"></div>
+
+    <!-- Header -->
+    <div class="header pb-6 d-flex align-items-center" style="min-height: 500px;" >
+        <span class="mask bg-gradient-default opacity-8"></span>
+        <!-- Header container -->
+        <div class="container-fluid d-flex align-items-center">
+            <div class="row">
+                <div class="col-lg-7 col-md-10">
+                    <h1 class="display-2 text-white" th:text="${'Hi, '+ session.user.firstName+'!'}"></h1>
+                    <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with
+                        your work and manage your projects or assigned tasks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col-xl-12 order-xl-1">
+                <div class="row">
+
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">Create Project </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:action="@{/saveAdminCreateProject}" th:object="${project}">
+                            <h6 class="heading-small text-muted mb-4">User information</h6>
+<!--                            <input type="text" class="form-control" id="id" th:field="*{projectId}" hidden>-->
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Title</label>
+                                            <input type="text" id="input-username" class="form-control"
+                                                   th:field="${project.title}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">Description</label>
+                                            <input type="text" id="input-email" class="form-control"
+                                                   th:field="${project.description}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="project-type">Project Type</label>
+                                            <select class="form-control" data-toggle="select" title="Simple select" data-placeholder="Select a state" th:field="*{type}">
+                                                <option th:value="Client" th:text="Client"></option>
+                                                <option th:value="Mock" th:text="Mock"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary font-weight-bold mt-3">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--</div>-->
+<!--<div th:insert="util/cdnInjection :: head-js  "></div>-->
+
+</body>
+</html>

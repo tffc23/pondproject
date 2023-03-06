@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>User Profile</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<section class="py-8 bg-light-light">
+			<div class="container">
+				<div class="row">
+					<!-- Search Section -->
+					<div class="col-12 col-lg-4 mb-6 mb-lg-0">
+						<div class="pt-4 bg-white rounded shadow">
+							<div class="px-6 pb-5">
+								<!-- Breadcrumb -->
+								<div aria-label="breadcrumb"
+									style="-bs-breadcrumb-divider: '&gt;'">
+									<ol class="breadcrumb small mb-0">
+										<li class="breadcrumb-item"><a
+											class="text-decoration-none d-flex align-items-center"
+											href="/"> <span class="d-inline-block me-2"> <i
+													class="fa-solid fa-house-chimney"></i>
+											</span> <span class="text-secondary">Home</span>
+										</a></li>
+										<li class="breadcrumb-item"><a
+											class="text-decoration-none d-flex align-items-center"
+											th:href="@{/search}"> <span class="d-inline-block me-2">
+													<i class="fa-solid fa-magnifying-glass"></i>
+											</span> <span class="text-secondary">Search</span>
+										</a></li>
+									</ol>
+								</div>
+
+								<!-- Search -->
+								<div class="py-8">
+									<!-- Search Form -->
+									<form th:action="@{/searchSomething}" method="get">
+										<div class="mb-6">
+											<p class="mb-0 mb-1 me-2 text-secondary">Search for</p>
+											<div class="form-check form-check-inline">
+
+												<input class="form-check-input" type="radio"
+													th:if="!${trainee}" name="inline-name" value="option 1" />
+												<input class="form-check-input" type="radio"
+													name="inline-name" value="option 1" checked /> <label
+													class="form-check-label" for="">Trainee</label>
+											</div>
+											<div class="form-check form-check-inline">
+
+												<input class="form-check-input" type="radio"
+													th:if="!${trainee}" name="inline-name" value="option 2"
+													checked /> <input class="form-check-input" type="radio"
+													name="inline-name" th:if="${trainee}" value="option 2" />
+												<label class="form-check-label" for="">Project</label>
+											</div>
+										</div>
+
+										<div class="mb-6 input-group">
+											<input class="form-control" type="text" name="field-name"
+												placeholder="Search by skills (E.g. python, java, ...)"
+												required />
+										</div>
+										<div>
+											<button class="btn btn-primary" type="submit">
+												Search</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- First Search: when user hasn't search for anything -->
+					<div class="col-12 col-lg-8" th:if="!${hasQuery}">
+						<!-- Trainee -->
+						<div class="py-8 px-6 bg-white">
+							<!-- <h4 class="mt-5">Discover interesting projects and people to
+								populate your personal news feed.</h4>
+							<p class="mt-3">CHANGE LATER ↑</p> -->
+							<img class="img-fluid" th:src="@{/assets/img/search.jpg}" />
+						</div>
+					</div>
+
+					<!-- Result Seaction -->
+					<div class="col-12 col-lg-8" th:if="${hasQuery}">
+						<!-- Trainee -->
+						<section class="pb-8" th:if="${trainee}">
+							<div class="container">
+								<div class="p-6 mb-6 bg-white rounded shadow">
+									<!-- Search Results Heading -->
+									<div class="col-12 col-lg-auto mb-12 mb-xl-0">
+										<h4 class="font-heading">Trainees</h4>
+									</div>
+
+									<!-- Trainees Found -->
+									<div class="table-responsive">
+										<table class="table mb-0 small">
+											<!-- Table Head -->
+											<thead class="table-primary-light">
+												<tr>
+													<th class="py-4 px-6 text-secondary">Trainee</th>
+													<th class="py-4 px-6 text-secondary">Stream</th>
+													<th class="py-4 px-6 text-secondary">Skills</th>
+													<th class="py-4 px-6"></th>
+												</tr>
+											</thead>
+											<!-- Table Body => Trainees -->
+											<tbody>
+												<tr class="border-light"
+													th:each="User , index : ${trainees}" th:object="${User}">
+													<td class="py-4 pr-6">
+														<div class="d-flex align-items-center">
+															<div class="ms-4">
+																<p class="fw-bold small mb-0"
+																	th:text="*{firstName} + ' ' + *{lastName}">Name</p>
+																<span class="text-secondary" th:text="*{email}">john@example.com</span>
+															</div>
+														</div>
+													</td>
+													<td class="py-4 px-6 small fw-bold" th:text=*{stream}>DEV</td>
+													<td class="py-4 px-6">
+														<div class="d-flex mb-n1 me-6 align-items-center">
+															<a
+																class="btn btn-sm me-2 mb-1 btn-outline-secondary small"
+																href="#" th:each="skill:*{traineeSkills}"
+																th:object="${skill.skill}" th:text="*{title}">Java</a>
+														</div>
+													</td>
+													<td class="py-4 px-6">
+														<div class="d-flex mb-n1 me-6 align-items-center">
+															<a class="btn btn-primary-light btn-sm me-2"
+																th:href="@{'/profile/'+*{id}}">View</a>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<!-- See more Trainees -->
+									<div class="pt-4 px-6 bg-white text-center">
+										<a class="btn btn-sm text-primary align-items-center" href="">
+											<span class="me-2"> <i
+												class="fa-solid fa-people-group"></i>
+										</span> <span>Total <span th:text="${trainees.size()}"></span>
+												results
+										</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</section>
+
+						<!-- Project -->
+						<section class="pb-8" th:if="!${trainee}">
+							<div class="container">
+								<div class="p-6 mb-6 bg-white rounded shadow">
+									<!-- Search Results Heading -->
+									<div class="col-12 col-lg-auto mb-12 mb-xl-0">
+										<h4 class="font-heading">Projects</h4>
+									</div>
+
+									<!-- Projects Found -->
+									<div class="table-responsive">
+										<table class="table mb-0 small">
+											<!-- Table Head -->
+											<thead class="table-primary-light">
+												<tr>
+													<th class="py-4 px-6 text-secondary">Project</th>
+													<th class="py-4 px-6 text-secondary">Creator</th>
+													<th class="py-4 px-6 text-secondary"></th>
+													<th class="py-4 px-6 text-secondary"></th>
+												</tr>
+											</thead>
+											<!-- Table Body => Trainees -->
+											<tbody>
+												<tr class="border-light" th:each="Project : ${projects}"
+													th:object="${Project}">
+													<td class="py-4 pr-6">
+														<div class="d-flex align-items-center">
+															<div class="ms-4">
+																<p class="fw-bold small mb-0" th:text="*{title}">Title</p>
+																<div class="d-flex py-1 align-items-center">
+																	<i class="fa-solid fa-people-group"></i> <span
+																		class="px-2" th:text="*{projectRoles.size()}">3</span>
+																</div>
+															</div>
+														</div>
+													</td>
+
+													<td class="py-4 px-6">
+														<div class="d-flex mb-n1 me-6 align-items-center">
+															<p th:text="*{creator.firstName}+' '+*{creator.lastName}">Creator</p>
+														</div>
+													</td>
+													<td class="py-4 px-6"></td>
+													<td class="py-4 pl-6 pr-0">
+														<div class="d-flex mb-n1 me-6 align-items-center">
+															<a class="btn btn-primary-light btn-sm me-2"
+																th:href="@{'/project/'+*{projectId}}"> View</a>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="pt-4 px-6 bg-white text-center">
+										<a class="btn btn-sm text-primary align-items-center" href="#">
+											<span class="me-2"> <i
+												class="fa-solid fa-chart-simple"></i>
+										</span> <span>Total <span th:text="${projects.size()}">num</span>
+												Results
+										</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+
+
+				</div>
+			</div>
+		</section>
+
+	</div>
+	<div th:insert="util/util:: js  " />
+</body>
+</html>

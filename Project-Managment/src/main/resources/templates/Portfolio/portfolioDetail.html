@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title th:text="${portfolio.title}"></title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<section class="py-8">
+			<div class="container">
+				<!-- Projects -->
+				<div class="p-6 bg-white rounded shadow">
+					<div class="position-relative mb-4">
+						<!-- Background Image -->
+						<img class="img-fluid w-100 rounded"
+							style="height: 155px; object-fit: cover"
+							src="https://images.unsplash.com/photo-1483959651481-dc75b89291f1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=301&amp;q=80"
+							alt="" /> <span
+							class="position-absolute top-0 end-0 mt-2 me-2 bg-primary py-1 px-2 text-white rounded small"
+							th:text="'Total ' + ${portfolio.projects.size} + ' projects'" ></span>
+					</div>
+					<div class="">
+						<div
+							class="d-flex align-items-center justify-content-between mb-6">
+							<div>
+								<h6 class="mb-1" th:text="${portfolio.title}">Portfolio Title</h6>
+								<p></p>
+								<p class="mb-0 small text-secondary" th:if="${portfolio.creator.id} != ${session.user.id}">
+									Created by <a th:href="@{/profile/} + ${portfolio.creator.id}"
+										style="text-decoration: none"> 
+										<b th:text="${portfolio.creator.firstName} + ' '+ ${portfolio.creator.lastName}">Project
+											Owner</b>
+									</a>
+								</p>
+								<span class="text-secondary small" th:text="${portfolio.description}">Description
+									placeholder</span>
+
+							</div>
+							<div th:if="${portfolio.creator.id} == ${session.user.id}">
+								<a th:href="@{'/portfolio/' + ${portfolio.id} + '/edit'}"> 
+									<button class="btn py-0 px-2 btn-primary-light text-primary">
+										<i class="fa-solid fa-ellipsis">
+										</i>
+									</button>
+								</a>
+							</div>						
+							
+						</div>
+
+						<!-- Created time -->
+						<div class="d-flex align-items-center justify-content-between">
+							<h4 class="mb-0 small">Created On</h4>
+							<span class="d-inline-block text-info small" th:text="${portfolio.createdDate}">dd/mm/yyyy</span>
+						</div>					
+						
+						<p></p>
+						
+						<!-- Skills -->
+						<div class="d-flex align-items-center justify-content-between">
+							<h4 class="mb-0 small">Associated skills</h4>
+							<div class="d-flex align-items-center flex-row-reverse">
+								<a class="btn py-1 px-2 me-2 mb-1 btn-sm btn-outline-secondary rounded"
+								th:each="skill:${portfolio.skills}" th:object="${skill}" th:text="*{title}">
+									Skills</a>
+								</div>
+						
+						
+						</div>
+					</div>
+				</div>
+
+				<!-- Projects -->
+				<div class="row py-8 mb-6">
+					<div class="col-12 col-sm-6 col-lg-4 mb-4" th:each="role:${roles}" 
+						th:object="${role}">
+						<div class="p-6 mb-6 bg-white rounded shadow">
+							<div
+								class="d-flex align-items-center justify-content-between mb-6">
+								<!-- Project Type: Mock | Client -->
+								<span class="badge bg-success-light text-success rounded-pill" th:text="*{project.type}">Client</span>
+								<!-- BUTTON: Remove Project! -->
+								<div th:if="${portfolio.creator.id} == ${session.user.id}">
+									<a th:href="@{'/portfolio/' + ${portfolio.id} + '/delete/' + ${role.project.projectId}}"> 
+										<button class="btn py-0 ">
+											<i class="fa-solid fa-xmark">
+											</i>
+										</button>
+									</a>
+								</div>
+								
+								
+							</div>
+							<!-- Project Information -->
+							<div class="mb-4">
+								<!-- Project Title -->
+								<a class="h6 mb-2 text-decoration-none" th:text="*{project.title}"
+								th:href="@{/project/} + *{project.projectId}">Project example name</a>
+								<!-- Project Description -->
+								<p class="small text-secondary" th:text="*{project.description}">project description</p>
+							</div>
+							<!-- number of team members  -->
+							<div class="d-flex pb-4">
+								<a
+									class="btn p-0 me-4 fw-normal d-flex align-items-center text-secondary"
+									href=""> <span><i class="fa-solid fa-people-group"></i></span>
+									<span class="ms-2" th:text="*{project.projectRoles.size}">6</span>
+								</a>
+							</div>
+							<!-- Role -->
+							<div class="pt-4 border-top border-light">
+								<div class="d-flex align-items-center justify-content-between">
+									<h6 class="mb-0 small">Role</h6>
+									<span class="d-inline-block text-info small" th:text="*{title}">Role</span>
+								</div>
+								<div
+									class="pt-4 d-flex align-items-center justify-content-between">
+									<h6 class="mb-0 small" >Skills</h6>
+									<div class="d-flex align-items-center flex-row-reverse">
+										<a
+											class="btn py-1 px-2 me-2 mb-1 btn-sm btn-outline-secondary rounded"
+											th:each="skill:${role.skills}" th:object="${skill}" th:text="*{title}">Skills</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<div th:insert="~{util/util:: js}" />
+</body>
+</html>

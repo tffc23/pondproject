@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>User Profile</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Skill Requests -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<!-- Breadcrumb -->
+					<div aria-label="breadcrumb" style="-bs-breadcrumb-divider: '&gt;'">
+						<ol class="breadcrumb small mb-0">
+							<li class="breadcrumb-item"><a
+								class="text-decoration-none d-flex align-items-center"
+								th:href="@{/profile} + ${session.user.id}"> <span
+									class="d-inline-block me-2"> <i class="fa-solid fa-user"></i>
+								</span> <span class="text-secondary">Profile</span>
+							</a></li>
+							<li class="breadcrumb-item"><a
+								class="text-decoration-none d-flex align-items-center" href="#">
+									<span class="d-inline-block me-2"> <i
+										class="fa-solid fa-toolbox"></i>
+								</span> <span class="text-secondary">Skill Requests</span>
+							</a></li>
+						</ol>
+					</div>
+
+					<!-- SkillS -->
+					<div
+						class="mb-5 pt-8 d-flex flex-wrap align-items-center justify-content-between">
+						<div>
+							<div class="d-flex align-items-center">
+								<h5 class="mb-0 me-2">Skill Requests</h5>
+								<span class="badge bg-primary"><span
+									th:text="${skills.size()}">num</span> Total</span>
+							</div>
+							<p class="mb-0 text-secondary">Approve or reject skills suggested by trainees.</p>
+						</div>
+					</div>
+
+					<!-- No skill requests -->
+					<div
+						class="p-4 mb-2 bg-light-light rounded d-flex align-items-center justify-content-between"
+						th:if="${skills.size()}==0">
+						<div class="d-flex align-items-center">
+							<span
+								class="d-flex justify-content-center align-items-center rounded text-primary bg-primary-light"
+								style="width: 40px; height: 40px; object-fit: cover"> <i
+								class="fa-regular fa-envelope-open"></i>
+							</span>
+							<div class="ms-3">
+								<h4 class="mb-0 small">No new requests</h4>
+								<p class="mb-0 text-secondary small">You don't have any new
+									incoming requests</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Skill requests -->
+					<div
+						class="p-4 mb-2 bg-light-light rounded d-flex align-items-center justify-content-between"
+						th:each="skill:${skills}" th:object="${skill}">
+						<div class="d-flex align-items-center">
+							<span
+								class="d-flex justify-content-center align-items-center rounded text-primary bg-primary-light"
+								style="width: 40px; height: 40px; object-fit: cover"> <i
+								class="fa-solid fa-wrench"></i>
+							</span>
+							<div class="ms-3">
+								<h4 class="mb-0 small" th:text="*{title}">Skill Name</h4>
+								<p class="mb-0 text-secondary small" th:text="*{description}">Skill
+									description</p>
+							</div>
+						</div>
+						<div class="d-flex align-items-center">
+							<!-- Add -->
+							<a class="btn btn-sm btn-primary mx-5"
+								th:href="@{'/skillsRequests/approve/' + *{id} }">Approve</a>
+							<!-- Reject -->
+							<a class="btn btn-sm btn-danger"
+								th:href="@{'/skillsRequests/reject/' + *{id} }">Reject</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<div th:insert="util/util:: js  " />
+</body>
+</html>

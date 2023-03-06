@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Home</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+
+		<!-- Notification -->
+		<section class="py-8">
+			<div class="container">
+				<div class="p-6 mb-6 bg-white rounded shadow">
+					<div class="d-flex w-100 align-items-center">
+						<!-- Breadcrumb -->
+						<div aria-label="breadcrumb"
+							style="-bs-breadcrumb-divider: '&gt;'">
+							<ol class="breadcrumb small mb-0">
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/}"> <span class="d-inline-block me-2"> <i
+											class="fa-solid fa-house-chimney"></i>
+									</span> <span class="text-secondary">Home</span>
+								</a></li>
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/notification}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-bell"></i>
+									</span> <span class="text-secondary">Notification</span>
+								</a></li>
+
+								<li class="breadcrumb-item"><a
+									class="text-decoration-none d-flex align-items-center"
+									th:href="@{/notification}"> <span
+										class="d-inline-block me-2"> <i
+											class="fa-solid fa-comments"></i>
+									</span> <span class="text-secondary">Send Message</span>
+								</a></li>
+							</ol>
+						</div>
+					</div>
+
+					<form class="py-8" th:object="${notification}" id="message"
+						th:action="@{/saveNotification}" method="post" onSubmit="alert()">
+						<div class="d-flex align-items-center mb-6">
+							<span
+								class="flex-shrink-0 d-inline-flex p-3 justify-content-center align-items-center text-primary bg-primary-light rounded-circle">
+								<i class="fa-solid fa-comments"></i>
+							</span>
+							<div class="ms-3">
+								<h5>Send a Message</h5>
+							</div>
+						</div>
+
+						<div class="px-5 form-group">
+
+							<input th:field="*{sender}" hidden /> <input th:field="*{owner}"
+								hidden />
+
+							<div class="">
+								<label class="form-label"><b>To</b>: <span
+									th:text="${receiver.firstName}+' '+${receiver.lastName}"></span></label>
+
+								</select>
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label" for="">Title</label> <input
+									class="form-control" name="field-name"
+									th:field="*{notif_title}" placeholder="Title"></input>
+							</div>
+
+							<div class="mb-6">
+								<label class="form-label" for="">Body</label>
+								<textarea class="form-control" name="field-name"
+									th:field="*{notif_text}" placeholder="Write something..."></textarea>
+							</div>
+
+
+							<button class="btn btn-primary small" type="submit">
+								Send</button>
+							<a class="btn btn-info-light small mx-2"
+								th:href="@{/notification}">Back</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</section>
+		<div th:insert="~{util/util:: js}" />
+		<script>
+			document.getElementById('message').onsubmit = function() {
+				alert("Message Sent!");
+			};
+		</script>
+</body>
+</html>

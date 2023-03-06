@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Add Role</title>
+<div th:insert="~{util/util::head}" />
+</head>
+
+
+<body>
+	<div class="">
+		<!-- Navigation -->
+		<div th:insert="~{util/navbar::navbar}" />
+		
+		
+		<section class="py-8">
+        <div class="container">
+          <div class="p-6 mb-6 bg-white rounded shadow">
+            <!-- Breadcrumb -->
+            <div aria-label="breadcrumb"
+						style="--bs-breadcrumb-divider: '>'">
+              <ol class="breadcrumb small mb-0">
+                <li class="breadcrumb-item">
+                  <a
+								class="text-decoration-none d-flex align-items-center" href="#">
+                    <span class="d-inline-block me-2">
+                      <i class="fa-solid fa-house-chimney"></i>
+                    </span>
+                    <span class="text-secondary">Home</span>
+                  </a>
+                </li>
+              </ol>
+            </div>
+
+            <!-- Error Image -->
+            <div
+						class="mb-5 pt-8 d-flex flex-wrap align-items-center justify-content-between">
+              <img src="error.jpg" class="img-fluid" />
+          </div>
+        </div>
+      
+		</section>
+		
+
+		
+			
+<div th:insert="util/util:: js  " />
+</body>
+</html>
